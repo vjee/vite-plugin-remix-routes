@@ -6,7 +6,7 @@ export function stringifyRoutes(routes: Route[], prefix: string): string {
     .join(",\n")}]`;
 }
 
-function stringifyRoute(route: Route, prefix: string): string {
+export function stringifyRoute(route: Route, prefix: string): string {
   const absPath = prefix + "/" + route.file;
   const children = stringifyRoutes(route.children, prefix);
 

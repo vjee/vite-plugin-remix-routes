@@ -26,7 +26,7 @@ export function getRoutes(appDir: string) {
 /**
  * See `createClientRoutes` in @remix-run/react/routes.tsx
  */
-function createRoutes(
+export function createRoutes(
   routeManifest: RouteManifest,
   parentId?: string
 ): Route[] {
@@ -43,7 +43,7 @@ function createRoutes(
 /**
  * See `createClientRoute` in @remix-run/react/routes.tsx
  */
-function createRoute(route: ConfigRoute): Route {
+export function createRoute(route: ConfigRoute): Route {
   return {
     id: route.id,
     file: route.file,

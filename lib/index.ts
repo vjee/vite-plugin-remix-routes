@@ -3,6 +3,9 @@ import type { Plugin } from "vite";
 import { getRoutes } from "./remix";
 import { stringifyRoutes } from "./stringify";
 
+export * from "./remix";
+export * from "./stringify";
+
 interface Options {
   /**
    * An absolute path to the folder containing the `routes` folder.
