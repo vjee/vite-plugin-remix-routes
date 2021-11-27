@@ -6,10 +6,12 @@ Use Remix.run routing in your Vite project.
 
 ```ts
 import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 import reactRemixRoutes from "vite-react-remix-routes";
 
 export default defineConfig({
   plugins: [
+    react(),
     reactRemixRoutes()
   ],
 });
@@ -24,20 +26,26 @@ import routes from "virtual:react-remix-routes";
 Example:
 
 ```tsx
+import { render } from "react-dom";
 import { BrowserRouter, useRoutes } from "react-router-dom";
 import routes from "virtual:react-remix-routes";
 
 function App() {
   const element = useRoutes(routes);
-
-  return <BrowserRouter>{element}</BrowserRouter>;
+  return element;
 }
+
+render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.querySelector("#app")
+);
 ```
 
 More info about `useRoutes` can be found here:
 
-https://reactrouter.com/docs/en/v6/api#useroutes
-
+https://reactrouter.com/docs/en/v6/api#useroutes\
 https://reactrouter.com/docs/en/v6/examples/route-objects
 
 ## TypeScript
