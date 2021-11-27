@@ -1,6 +1,6 @@
 {
   "name": "vite-react-remix-routes",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Use Remix.run routing in your Vite project",
   "author": "Jasper Van Gestel",
   "license": "MIT",
@@ -32,5 +32,18 @@
   },
   "dependencies": {
     "@remix-run/dev": "^1.0.6"
-  }
+  },
+  "keywords": [
+    "vite",
+    "react",
+    "remix",
+    "run",
+    "routes",
+    "routing",
+    "router",
+    "pages",
+    "plugin",
+    "file",
+    "based"
+  ]
 }

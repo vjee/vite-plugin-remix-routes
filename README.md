@@ -37,6 +37,7 @@ function App() {
 More info about `useRoutes` can be found here:
 
 https://reactrouter.com/docs/en/v6/api#useroutes
+
 https://reactrouter.com/docs/en/v6/examples/route-objects
 
 ## TypeScript
