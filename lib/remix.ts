@@ -1,6 +1,5 @@
 import { defineConventionalRoutes } from "@remix-run/dev/config/routesConvention";
 import type { ConfigRoute, RouteManifest } from "@remix-run/dev/config/routes";
-import type { Route } from "./types";
 
 /**
  * See `readConfig` in @remix-run/dev/config.ts
@@ -50,7 +49,17 @@ export function createRoute(route: ConfigRoute): Route {
 
     path: route.path || "",
     index: !!route.index,
-    caseSensitive: !!route.caseSensitive,
     children: [],
   };
+}
+
+export interface Route {
+  // custom properties
+  id: string;
+  file: string;
+
+  // react-router route properties
+  path: string;
+  index: boolean;
+  children: Route[];
 }
