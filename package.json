@@ -1,6 +1,6 @@
 {
   "name": "vite-react-remix-routes",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Use Remix.run routing in your Vite project",
   "license": "MIT",
   "author": "Jasper Van Gestel",
@@ -10,10 +10,7 @@
   },
   "homepage": "https://github.com/vjee/vite-react-remix-routes",
   "bugs": "https://github.com/vjee/vite-react-remix-routes/issues",
-  "files": [
-    "dist",
-    "virtual.d.ts"
-  ],
+  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/node/index.js",
@@ -29,14 +26,23 @@
     },
     "./package.json": "./package.json"
   },
+  "typesVersions": {
+    "*": {
+      "client": [
+        "dist/client"
+      ]
+    }
+  },
   "main": "dist/node/index.cjs",
   "module": "dist/node/index.js",
   "types": "dist/node/index.d.ts",
-  "type": "module",
   "scripts": {
     "build": "node scripts/build",
     "prepublish": "npm run build",
     "test": "NODE_OPTIONS=--experimental-specifier-resolution=node uvu tests \".+\\.test.js$\""
+  },
+  "dependencies": {
+    "@remix-run/dev": "^1.0.6"
   },
   "devDependencies": {
     "@types/react": "16.7.0",
@@ -48,14 +54,15 @@
     "uvu": "^0.5.2",
     "vite": "^2.6.14"
   },
-  "dependencies": {
-    "@remix-run/dev": "^1.0.6"
-  },
   "peerDependencies": {
     "react": "^16.6.0",
     "react-router": "^6.0.0",
     "react-router-dom": "^6.0.0"
   },
+  "files": [
+    "dist",
+    "virtual.d.ts"
+  ],
   "keywords": [
     "vite",
     "react",
