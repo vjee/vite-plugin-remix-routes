@@ -41,20 +41,26 @@ function routeToString(
   const componentPath = `${context.prefix}/${route.file}`;
   const importMode = context.importMode(route);
 
+  const props = new Map<string, string>();
+
+  if (route.path !== "") {
+    props.set("path", `'${route.path}'`);
+  }
+
   if (importMode === "async") {
     components.async.push(
-      `const ${componentName} = lazy(() => import('${componentPath}'));`
+      `const ${componentName} = () => import('${componentPath}');`
     );
+
+    props.set("element", `createElement(lazy(${componentName}))`);
+    props.set("loader", componentName);
   }
 
   if (importMode === "sync") {
     components.sync.push(`import ${componentName} from '${componentPath}';`);
+
+    props.set("element", `createElement(${componentName})`);
   }
-
-  const props = new Map<string, string>();
-
-  props.set("path", `'${route.path}'`);
-  props.set("element", `createElement(${componentName})`);
 
   if (route.index === true) {
     props.set("index", "true");
@@ -63,10 +69,6 @@ function routeToString(
   if (route.children.length) {
     const children = routesToString(route.children, context, components);
     props.set("children", children);
-  }
-
-  if (importMode === "async") {
-    props.set("loader", `() => import('${componentPath}')`);
   }
 
   return (
