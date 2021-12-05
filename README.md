@@ -56,7 +56,7 @@ Keep in mind this only receives top level routes, so you can't mark nested route
 ## Usage
 
 ```ts
-import routes from "virtual:react-remix-routes";
+import routes from "virtual:routes";
 ```
 
 **Example:**
