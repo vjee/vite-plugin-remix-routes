@@ -64,7 +64,7 @@ import routes from "virtual:react-remix-routes";
 ```tsx
 import { render } from "react-dom";
 import { BrowserRouter, useRoutes } from "react-router-dom";
-import routes from "virtual:react-remix-routes";
+import routes from "virtual:routes";
 
 function App() {
   const element = useRoutes(routes);
@@ -89,14 +89,15 @@ Lets say we land on the nested route `/one/two/three`.
 React will first render (and load) the component for `one`, then `two` and at last `three` in series.\
 Each component needs to be loaded and rendered before the next one is loaded.
 
-This is not ideal so you can use the `EagerLoader` component provided by `vite-react-remix-routes` to immediately load all the components that will be needed for the current route.
+This is not ideal so you can use the `EagerLoader` component exported by `vite-react-remix-routes/client` to immediately load all the components that will be needed for the current route.
 
 **Example:**
 
 ```jsx
 import { render } from "react-dom";
 import { BrowserRouter, useRoutes } from "react-router-dom";
-import routes, { EagerLoader } from "virtual:react-remix-routes";
+import { EagerLoader } from "vite-react-remix-routes/client";
+import routes from "virtual:routes";
 
 function App() {
   const element = useRoutes(routes);
@@ -123,7 +124,7 @@ But in that case, you probably don't want a nested route anyway.
 <details>
 <summary>How does this work?</summary>
 
-The code below is the source for `EagerLoader`.
+[This is the code](https://github.com/vjee/vite-react-remix-routes/blob/main/lib/client/EagerLoader.ts) for `EagerLoader`.
 It gets the current location with the `useLocation` hook and gets all the matching routes for that location with `matchRoutes`.
 Then we loop over each of the matching routes and call it's `loader` method.
 
@@ -161,7 +162,7 @@ If you use TypeScript you can add the following to your `vite-env.d.ts` file.\
 This will add types for the `virtual:react-remix-routes` module.
 
 ```ts
-/// <reference types="vite-react-remix-routes/client" />
+/// <reference types="vite-react-remix-routes/virtual" />
 ```
 
 ## Similar projects

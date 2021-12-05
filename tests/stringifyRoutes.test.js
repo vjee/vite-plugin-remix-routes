@@ -6,7 +6,7 @@ import * as assert from "uvu/assert";
 import routesStringFixture from "./fixtures/routesString.fixture.js";
 import componentsStringFixture from "./fixtures/componentsString.fixture.js";
 
-import { getRoutes, stringifyRoutes } from "../dist";
+import { getRoutes, stringifyRoutes } from "../dist/node";
 
 const dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const appDir = path.join(dirname, "../examples/basic/src");

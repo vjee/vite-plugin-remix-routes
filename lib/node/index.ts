@@ -34,7 +34,7 @@ interface Options {
 }
 
 function reactRemixRoutes(options?: Options): Plugin {
-  const virtualModuleId = "virtual:react-remix-routes";
+  const virtualModuleId = "virtual:routes";
   const resolvedVirtualModuleId = "\0" + virtualModuleId;
 
   const appDir = options?.appDir || path.join(process.cwd(), "src");
@@ -62,35 +62,14 @@ function reactRemixRoutes(options?: Options): Plugin {
           importMode,
         });
 
-        return sourceCode(routesString, componentsString);
+        return (
+          `import { createElement, lazy, useEffect } from 'react';\n` +
+          `${componentsString}\n` +
+          `export default ${routesString};\n`
+        );
       }
     },
   };
-}
-
-function sourceCode(routesString: string, componentsString: string) {
-  return `
-import { createElement, lazy, useEffect } from 'react';
-import { matchRoutes, useLocation } from 'react-router-dom';
-
-${componentsString}
-
-export default ${routesString};
-
-export function EagerLoader({ routes }) {
-  const location = useLocation();
-
-  useEffect(() => {
-    const matches = matchRoutes(routes, location) || [];
-
-    for (const match of matches) {
-      match.route.loader?.();
-    }
-  }, [location]);
-
-  return null;
-}
-`;
 }
 
 export default reactRemixRoutes;

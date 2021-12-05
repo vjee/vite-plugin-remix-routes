@@ -16,20 +16,28 @@
   ],
   "exports": {
     ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.js"
+      "import": "./dist/node/index.js",
+      "require": "./dist/node/index.cjs"
     },
-    "./*": "./*"
+    "./client": {
+      "import": "./dist/client/index.js"
+    },
+    "./package.json": "./package.json"
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/node/index.cjs",
+  "module": "dist/node/index.js",
+  "types": "dist/node/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "tsup lib/index.ts --format cjs,esm --dts",
+    "build": "node scripts/build",
+    "prepublish": "npm run build",
     "test": "NODE_OPTIONS=--experimental-specifier-resolution=node uvu tests \".+\\.test.js$\""
   },
   "devDependencies": {
+    "@types/react": "16.7.0",
+    "react": "16.6.0",
+    "react-router": "6.0.0",
+    "react-router-dom": "6.0.0",
     "tsup": "^5.10.0",
     "typescript": "^4.5.2",
     "uvu": "^0.5.2",

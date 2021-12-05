@@ -5,7 +5,7 @@ import * as assert from "uvu/assert";
 
 import routesArrayFixture from "./fixtures/routesArray.fixture.js";
 
-import { getRoutes } from "../dist";
+import { getRoutes } from "../dist/node";
 
 const dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const appDir = path.join(dirname, "../examples/basic/src");
