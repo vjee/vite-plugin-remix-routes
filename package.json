@@ -1,6 +1,6 @@
 {
   "name": "vite-react-remix-routes",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Use Remix.run routing in your Vite project",
   "license": "MIT",
   "author": "Jasper Van Gestel",
@@ -17,10 +17,15 @@
   "exports": {
     ".": {
       "import": "./dist/node/index.js",
-      "require": "./dist/node/index.cjs"
+      "require": "./dist/node/index.cjs",
+      "types": "./dist/node/index.d.ts"
     },
     "./client": {
-      "import": "./dist/client/index.js"
+      "import": "./dist/client/index.js",
+      "types": "./dist/client/index.d.ts"
+    },
+    "./virtual": {
+      "types": "./virtual.d.ts"
     },
     "./package.json": "./package.json"
   },
