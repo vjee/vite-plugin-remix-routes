@@ -11,7 +11,10 @@ const dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const appDir = path.join(dirname, "../examples/basic/src");
 
 test("getRoutes", async () => {
-  const routes = getRoutes(appDir);
+  const routes = getRoutes({
+    appDir,
+    is404Route: (route) => route.id === "routes/404",
+  });
   const actual = JSON.stringify(routes, null, 4);
 
   assert.fixture(actual, routesArrayFixture);

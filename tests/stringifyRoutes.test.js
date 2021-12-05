@@ -12,7 +12,10 @@ const dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const appDir = path.join(dirname, "../examples/basic/src");
 
 test("stringifyRoutes", async () => {
-  const routes = getRoutes(appDir);
+  const routes = getRoutes({
+    appDir,
+    is404Route: (route) => route.id === "routes/404",
+  });
   const prefix = "/src";
   const importMode = (route) =>
     route.id.startsWith("routes/demos/about") ? "async" : "sync";

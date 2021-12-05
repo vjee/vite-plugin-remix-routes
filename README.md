@@ -41,6 +41,18 @@ This will most likely be your `/src` folder.
 
 A function that receives a `Route` to determine if the route's component should be imported synchronously or asynchronously.
 
+### is404Route
+
+- **Optional**
+- **Type**: `(route: Route) => boolean`
+- **Default**: `(route) => route.id === "routes/404"`
+
+A function that receives a `Route` to determine if it should be a 404 route. (`path="*"`)
+
+By default this matches the same 404 file as Remix does.
+
+Keep in mind this only receives top level routes, so you can't mark nested routes as 404 routes.
+
 ## Usage
 
 ```ts

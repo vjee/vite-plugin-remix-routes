@@ -49,5 +49,12 @@ export default `[
         "path": "",
         "index": true,
         "children": []
+    },
+    {
+        "id": "routes/404",
+        "file": "routes/404.jsx",
+        "path": "*",
+        "index": false,
+        "children": []
     }
 ]`;

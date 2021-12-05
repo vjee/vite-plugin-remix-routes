@@ -15,12 +15,22 @@ interface Options {
   appDir?: string;
 
   /**
-   * A function that receives `Route` to determine if the route's component
+   * A function that receives a `Route` to determine if the route's component
    * should be imported synchronously or asynchronously.
    *
    * @default () => "sync"
    */
   importMode?: (route: Route) => "async" | "sync";
+
+  /**
+   * A function that receives a `Route` to determine if it should be a 404 route. (`path="*"`)
+   * By default this matches the same 404 file as Remix does.
+   * Keep in mind this only receives top level routes, so you can't mark nested routes
+   * as 404 routes.
+   *
+   * @default (route) => route.id === "routes/404"
+   */
+  is404Route?: (route: Route) => boolean;
 }
 
 function reactRemixRoutes(options?: Options): Plugin {
@@ -29,6 +39,8 @@ function reactRemixRoutes(options?: Options): Plugin {
 
   const appDir = options?.appDir || path.join(process.cwd(), "src");
   const importMode = options?.importMode || (() => "sync");
+  const is404Route =
+    options?.is404Route || ((route) => route.id === "routes/404");
 
   const prefix = appDir.replace(process.cwd(), "");
 
@@ -43,13 +55,12 @@ function reactRemixRoutes(options?: Options): Plugin {
 
     load(id) {
       if (id === resolvedVirtualModuleId) {
-        const routes = getRoutes(appDir);
-        const context = { prefix, importMode };
+        const routes = getRoutes({ appDir, is404Route });
 
-        const { routesString, componentsString } = stringifyRoutes(
-          routes,
-          context
-        );
+        const { routesString, componentsString } = stringifyRoutes(routes, {
+          prefix,
+          importMode,
+        });
 
         return sourceCode(routesString, componentsString);
       }

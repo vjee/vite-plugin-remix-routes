@@ -1,10 +1,15 @@
 import { defineConventionalRoutes } from "@remix-run/dev/config/routesConvention";
 import type { ConfigRoute, RouteManifest } from "@remix-run/dev/config/routes";
 
+interface Options {
+  appDir: string;
+  is404Route: (route: Route) => boolean;
+}
+
 /**
  * See `readConfig` in @remix-run/dev/config.ts
  */
-export function getRoutes(appDir: string) {
+export function getRoutes({ appDir, is404Route }: Options) {
   const routeManifest: RouteManifest = {
     root: { path: "", id: "root", file: "routes/index" },
   };
@@ -19,7 +24,15 @@ export function getRoutes(appDir: string) {
     };
   }
 
-  return createRoutes(routeManifest)[0].children;
+  const routes = createRoutes(routeManifest)[0].children;
+
+  return routes.map((route) => {
+    if (is404Route(route)) {
+      return { ...route, path: "*" };
+    }
+
+    return route;
+  });
 }
 
 /**
