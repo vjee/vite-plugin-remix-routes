@@ -132,22 +132,6 @@ This `loader` method is added to async routes by `vite-react-remix-routes` and l
 
 This will start the download of the route component. When React tries to render it later on, it is already loaded or it reuses the pending request if it hasn't finished yet.
 
-```jsx
-function EagerLoader({ routes }) {
-  const location = useLocation();
-
-  useEffect(() => {
-    const matches = matchRoutes(routes, location) || [];
-
-    for (const match of matches) {
-      match.route.loader?.();
-    }
-  }, [location]);
-
-  return null;
-}
-```
-
 </details>
 <br />
 
