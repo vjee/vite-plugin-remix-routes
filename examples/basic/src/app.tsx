@@ -1,5 +1,5 @@
 import { useRoutes } from "react-router-dom";
-import { EagerLoader } from "../../../dist/client/index.js";
+import { EagerLoader } from "vite-plugin-remix-routes/client";
 import routes from "virtual:remix-routes";
 
 export default function App() {

@@ -1,12 +1,11 @@
-import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import remixRoutes from "../..";
+import remixRoutes from "vite-plugin-remix-routes";
 
-export default defineConfig({
+export default {
   plugins: [
     react(),
     remixRoutes({
-      importMode: (route) => "async",
+      importMode: () => "async",
     }),
   ],
-});
+};
