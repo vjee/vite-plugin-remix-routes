@@ -3,8 +3,8 @@ import url from "node:url";
 import { test } from "uvu";
 import * as assert from "uvu/assert";
 
-import routesStringFixture from "./fixtures/routesString.fixture.js";
-import componentsStringFixture from "./fixtures/componentsString.fixture.js";
+import routesStringFixture from "./fixtures/routes-string.js";
+import componentsStringFixture from "./fixtures/components-string.js";
 
 import { getRoutes, stringifyRoutes } from "../dist/node";
 
@@ -12,10 +12,7 @@ const dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const appDir = path.join(dirname, "../examples/basic/src");
 
 test("stringifyRoutes", async () => {
-  const routes = getRoutes({
-    appDir,
-    is404Route: (route) => route.id === "routes/404",
-  });
+  const routes = getRoutes({ appDir });
   const prefix = "/src";
   const importMode = (route) =>
     route.id.startsWith("routes/demos/about") ? "async" : "sync";

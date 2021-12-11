@@ -124,7 +124,7 @@ But in that case, you probably don't want a nested route anyway.
 <details>
 <summary>How does this work?</summary>
 
-[This is the code](https://github.com/vjee/vite-plugin-remix-routes/blob/main/lib/client/EagerLoader.ts) for `EagerLoader`.
+[This is the code](https://github.com/vjee/vite-plugin-remix-routes/blob/main/lib/client/eager-loader.ts) for `EagerLoader`.
 It gets the current location with the `useLocation` hook and gets all the matching routes for that location with `matchRoutes`.
 Then we loop over each of the matching routes and call it's `loader` method.
 

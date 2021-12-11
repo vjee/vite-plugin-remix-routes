@@ -2,7 +2,7 @@ import type { Route } from "./remix";
 
 interface Context {
   prefix: string;
-  importMode: (route: Route) => "sync" | "async";
+  importMode?: (route: Route) => "sync" | "async";
 }
 
 interface Components {
@@ -39,7 +39,7 @@ function routeToString(
 ): string {
   const componentName = getRouteComponentName(route);
   const componentPath = `${context.prefix}/${route.file}`;
-  const importMode = context.importMode(route);
+  const importMode = context.importMode?.(route) || "sync";
 
   const props = new Map<string, string>();
 

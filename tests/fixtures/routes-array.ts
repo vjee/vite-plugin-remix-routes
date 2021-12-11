@@ -1,5 +1,12 @@
 export default `[
     {
+        "id": "routes/one.two.three",
+        "file": "routes/one.two.three.jsx",
+        "path": "one/two/three",
+        "index": false,
+        "children": []
+    },
+    {
         "id": "routes/demos/params",
         "file": "routes/demos/params.jsx",
         "path": "demos/params",
@@ -38,6 +45,13 @@ export default `[
                 "id": "routes/demos/about/whoa",
                 "file": "routes/demos/about/whoa.jsx",
                 "path": "whoa",
+                "index": false,
+                "children": []
+            },
+            {
+                "id": "routes/demos/about/404",
+                "file": "routes/demos/about/404.jsx",
+                "path": "404",
                 "index": false,
                 "children": []
             }

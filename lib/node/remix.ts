@@ -3,13 +3,15 @@ import type { ConfigRoute, RouteManifest } from "@remix-run/dev/config/routes";
 
 interface Options {
   appDir: string;
-  is404Route: (route: Route) => boolean;
+  is404Route?: (route: Route) => boolean;
 }
 
 /**
  * See `readConfig` in @remix-run/dev/config.ts
  */
-export function getRoutes({ appDir, is404Route }: Options) {
+export function getRoutes(options: Options) {
+  const { appDir, is404Route = (route) => route.id.endsWith("/404") } = options;
+
   const routeManifest: RouteManifest = {
     root: { path: "", id: "root", file: "routes/index" },
   };

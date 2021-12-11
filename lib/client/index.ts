@@ -1,1 +1,1 @@
-export { default as EagerLoader } from "./EagerLoader";
+export { default as EagerLoader } from "./eager-loader";

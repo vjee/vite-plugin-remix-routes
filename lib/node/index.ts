@@ -33,13 +33,14 @@ interface Options {
   is404Route?: (route: Route) => boolean;
 }
 
-function plugin(options?: Options): Plugin {
+function plugin(options: Options = {}): Plugin {
   const virtualModuleId = "virtual:remix-routes";
 
-  const appDir = options?.appDir || path.join(process.cwd(), "src");
-  const importMode = options?.importMode || (() => "sync");
-  const is404Route =
-    options?.is404Route || ((route) => route.id.endsWith("/404"));
+  const {
+    appDir = path.join(process.cwd(), "src"),
+    importMode,
+    is404Route,
+  } = options;
 
   const prefix = appDir.replace(process.cwd(), "");
 
