@@ -4,7 +4,7 @@ Use [Remix](https://github.com/remix-run/remix) routing in your [Vite](https://g
 
 ## Plugin config
 
-```ts
+```js
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import remixRoutes from "vite-plugin-remix-routes";
@@ -16,7 +16,7 @@ export default defineConfig({
 
 **With options:**
 
-```ts
+```js
 remixRoutes({
   /* options here */
 });
@@ -55,13 +55,13 @@ A route's `id` is the component path without extension.
 
 ## Usage
 
-```ts
+```js
 import routes from "virtual:remix-routes";
 ```
 
 **Example:**
 
-```tsx
+```jsx
 import { render } from "react-dom";
 import { BrowserRouter, useRoutes } from "react-router-dom";
 import routes from "virtual:remix-routes";
