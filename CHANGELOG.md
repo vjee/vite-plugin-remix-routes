@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.2]
+
+### Changed
+
+- Allow nested 404 routes.
+
 ## [0.1.1]
 
 ### Fixed
