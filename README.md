@@ -45,13 +45,13 @@ A function that receives a `Route` to determine if the route's component should 
 
 - **Optional**
 - **Type**: `(route: Route) => boolean`
-- **Default**: `(route) => route.id === "routes/404"`
+- **Default**: `(route) => route.id.endsWith("/404")`
 
 A function that receives a `Route` to determine if it should be a 404 route. (`path="*"`)
 
-By default this matches the same 404 file as Remix does.
+By default this matches all routes whose id's end with `/404`.
 
-Keep in mind this only receives top level routes, so you can't mark nested routes as 404 routes.
+A route's `id` is the component path without extension.
 
 ## Usage
 

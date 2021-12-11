@@ -26,13 +26,14 @@ export function getRoutes({ appDir, is404Route }: Options) {
 
   const routes = createRoutes(routeManifest)[0].children;
 
-  return routes.map((route) => {
-    if (is404Route(route)) {
-      return { ...route, path: "*" };
-    }
-
-    return route;
+  // This is not part of remix.
+  const modifyRoute = (route: Route): Route => ({
+    ...route,
+    path: is404Route(route) ? "*" : route.path,
+    children: route.children.map(modifyRoute),
   });
+
+  return routes.map(modifyRoute);
 }
 
 /**
@@ -46,8 +47,7 @@ export function createRoutes(
     .filter((key) => routeManifest[key].parentId === parentId)
     .map((key) => {
       const route = createRoute(routeManifest[key]);
-      const children = createRoutes(routeManifest, route.id);
-      if (children.length > 0) route.children = children;
+      route.children = createRoutes(routeManifest, route.id);
       return route;
     });
 }

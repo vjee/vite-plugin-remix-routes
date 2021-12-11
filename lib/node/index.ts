@@ -35,12 +35,11 @@ interface Options {
 
 function plugin(options?: Options): Plugin {
   const virtualModuleId = "virtual:remix-routes";
-  const resolvedVirtualModuleId = "\0" + virtualModuleId;
 
   const appDir = options?.appDir || path.join(process.cwd(), "src");
   const importMode = options?.importMode || (() => "sync");
   const is404Route =
-    options?.is404Route || ((route) => route.id === "routes/404");
+    options?.is404Route || ((route) => route.id.endsWith("/404"));
 
   const prefix = appDir.replace(process.cwd(), "");
 
@@ -49,12 +48,12 @@ function plugin(options?: Options): Plugin {
 
     resolveId(id) {
       if (id === virtualModuleId) {
-        return resolvedVirtualModuleId;
+        return id;
       }
     },
 
     load(id) {
-      if (id === resolvedVirtualModuleId) {
+      if (id === virtualModuleId) {
         const routes = getRoutes({ appDir, is404Route });
 
         const { routesString, componentsString } = stringifyRoutes(routes, {
