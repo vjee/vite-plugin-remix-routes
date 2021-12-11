@@ -37,9 +37,9 @@
   "module": "dist/node/index.js",
   "types": "dist/node/index.d.ts",
   "scripts": {
-    "build": "node scripts/build",
-    "prepublish": "npm run build",
-    "test": "node --experimental-loader esbuild-node-loader --experimental-specifier-resolution=node ./node_modules/.bin/uvu tests"
+    "build": "node --experimental-loader esbuild-node-loader scripts/build.ts",
+    "test": "node --experimental-loader esbuild-node-loader --experimental-specifier-resolution=node ./node_modules/.bin/uvu tests",
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "@remix-run/dev": "^1.0.6"
