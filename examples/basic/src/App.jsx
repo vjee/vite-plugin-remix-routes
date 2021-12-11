@@ -1,6 +1,6 @@
 import { useRoutes } from "react-router-dom";
 import { EagerLoader } from "../../../dist/client/index.js";
-import routes from "virtual:routes";
+import routes from "virtual:remix-routes";
 
 export default function App() {
   const element = useRoutes(routes);

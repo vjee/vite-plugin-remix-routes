@@ -1,15 +1,15 @@
 {
-  "name": "vite-react-remix-routes",
+  "name": "vite-plugin-remix-routes",
   "version": "0.0.14",
-  "description": "Use Remix.run routing in your Vite project",
+  "description": "Use Remix routing in your Vite project",
   "license": "MIT",
   "author": "Jasper Van Gestel",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vjee/vite-react-remix-routes"
+    "url": "https://github.com/vjee/vite-plugin-remix-routes"
   },
-  "homepage": "https://github.com/vjee/vite-react-remix-routes",
-  "bugs": "https://github.com/vjee/vite-react-remix-routes/issues",
+  "homepage": "https://github.com/vjee/vite-plugin-remix-routes",
+  "bugs": "https://github.com/vjee/vite-plugin-remix-routes/issues",
   "type": "module",
   "exports": {
     ".": {

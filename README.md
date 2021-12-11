@@ -1,23 +1,23 @@
-# vite-react-remix-routes
+# vite-plugin-remix-routes
 
-Use [Remix.run](https://github.com/remix-run/remix) routing in your [Vite](https://github.com/vitejs/vite) project.
+Use [Remix](https://github.com/remix-run/remix) routing in your [Vite](https://github.com/vitejs/vite) project.
 
 ## Plugin config
 
 ```ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import reactRemixRoutes from "vite-react-remix-routes";
+import remixRoutes from "vite-plugin-remix-routes";
 
 export default defineConfig({
-  plugins: [react(), reactRemixRoutes()],
+  plugins: [react(), remixRoutes()],
 });
 ```
 
 **With options:**
 
 ```ts
-reactRemixRoutes({
+remixRoutes({
   /* options here */
 });
 ```
@@ -56,7 +56,7 @@ Keep in mind this only receives top level routes, so you can't mark nested route
 ## Usage
 
 ```ts
-import routes from "virtual:routes";
+import routes from "virtual:remix-routes";
 ```
 
 **Example:**
@@ -64,7 +64,7 @@ import routes from "virtual:routes";
 ```tsx
 import { render } from "react-dom";
 import { BrowserRouter, useRoutes } from "react-router-dom";
-import routes from "virtual:routes";
+import routes from "virtual:remix-routes";
 
 function App() {
   const element = useRoutes(routes);
@@ -89,15 +89,15 @@ Lets say we land on the nested route `/one/two/three`.
 React will first render (and load) the component for `one`, then `two` and at last `three` in series.\
 Each component needs to be loaded and rendered before the next one is loaded.
 
-This is not ideal so you can use the `EagerLoader` component exported by `vite-react-remix-routes/client` to immediately load all the components that will be needed for the current route.
+This is not ideal so you can use the `EagerLoader` component exported by `vite-plugin-remix-routes/client` to immediately load all the components that will be needed for the current route.
 
 **Example:**
 
 ```jsx
 import { render } from "react-dom";
 import { BrowserRouter, useRoutes } from "react-router-dom";
-import { EagerLoader } from "vite-react-remix-routes/client";
-import routes from "virtual:routes";
+import { EagerLoader } from "vite-plugin-remix-routes/client";
+import routes from "virtual:remix-routes";
 
 function App() {
   const element = useRoutes(routes);
@@ -124,11 +124,11 @@ But in that case, you probably don't want a nested route anyway.
 <details>
 <summary>How does this work?</summary>
 
-[This is the code](https://github.com/vjee/vite-react-remix-routes/blob/main/lib/client/EagerLoader.ts) for `EagerLoader`.
+[This is the code](https://github.com/vjee/vite-plugin-remix-routes/blob/main/lib/client/EagerLoader.ts) for `EagerLoader`.
 It gets the current location with the `useLocation` hook and gets all the matching routes for that location with `matchRoutes`.
 Then we loop over each of the matching routes and call it's `loader` method.
 
-This `loader` method is added to async routes by `vite-react-remix-routes` and looks like this: `loader: () => import("./path/to/route/component")`.
+This `loader` method is added to async routes by `vite-plugin-remix-routes` and looks like this: `loader: () => import("./path/to/route/component")`.
 
 This will start the download of the route component. When React tries to render it later on, it is already loaded or it reuses the pending request if it hasn't finished yet.
 
@@ -143,10 +143,10 @@ More info about `useRoutes` can be found here:
 ## TypeScript
 
 If you use TypeScript you can add the following to your `vite-env.d.ts` file.\
-This will add types for the `virtual:react-remix-routes` module.
+This will add types for the `virtual:remix-routes` module.
 
 ```ts
-/// <reference types="vite-react-remix-routes/virtual" />
+/// <reference types="vite-plugin-remix-routes/virtual" />
 ```
 
 ## Similar projects
@@ -156,9 +156,9 @@ This will add types for the `virtual:react-remix-routes` module.
 This project is inspired by [`vite-plugin-pages`](https://github.com/hannoeru/vite-plugin-pages)
 that can be used with both Vue and React.
 
-`vite-react-remix-routes` is different in that it utilizes [`remix-run`](https://github.com/remix-run/remix) to generate the routes array instead of using a custom convention.\
+`vite-plugin-remix-routes` is different in that it utilizes [`remix`](https://github.com/remix-run/remix) to generate the routes array instead of using a custom convention.\
 As the name suggests, it also only works with React.
 
 ## License
 
-[MIT](https://github.com/vjee/vite-react-remix-routes/blob/main/LICENSE)
+[MIT](https://github.com/vjee/vite-plugin-remix-routes/blob/main/LICENSE)

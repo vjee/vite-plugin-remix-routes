@@ -33,8 +33,8 @@ interface Options {
   is404Route?: (route: Route) => boolean;
 }
 
-function reactRemixRoutes(options?: Options): Plugin {
-  const virtualModuleId = "virtual:routes";
+function plugin(options?: Options): Plugin {
+  const virtualModuleId = "virtual:remix-routes";
   const resolvedVirtualModuleId = "\0" + virtualModuleId;
 
   const appDir = options?.appDir || path.join(process.cwd(), "src");
@@ -45,7 +45,7 @@ function reactRemixRoutes(options?: Options): Plugin {
   const prefix = appDir.replace(process.cwd(), "");
 
   return {
-    name: "react-remix-routes",
+    name: "vite-plugin-remix-routes",
 
     resolveId(id) {
       if (id === virtualModuleId) {
@@ -72,7 +72,7 @@ function reactRemixRoutes(options?: Options): Plugin {
   };
 }
 
-export default reactRemixRoutes;
+export default plugin;
 export { getRoutes, stringifyRoutes };
 
 export type { Route };
