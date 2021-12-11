@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.3]
+
+### Fixed
+
+- Fix tests.
+
+### Changed
+
+- Use TypeScript for tests, scripts and examples.
+- Update code block languages in README.md.
+
 ## [0.1.2]
 
 ### Changed
