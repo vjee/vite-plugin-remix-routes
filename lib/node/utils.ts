@@ -78,7 +78,7 @@ function routeToString(
 
 function getRouteComponentName(route: Route) {
   return route.id
-    .split("/")
+    .split(/[/.]/)
     .map((str) => str.replace(/^\w/, (c) => c.toUpperCase()))
     .join("");
 }
