@@ -1,34 +1,34 @@
 import path from "node:path";
+import url from "node:url";
+import fs from "node:fs/promises";
 
-import { build, LibraryFormats } from "vite";
+import tsup from "tsup";
 
-const fileName = (format: string) => `index.${format === "es" ? "js" : "cjs"}`;
-const formats: LibraryFormats[] = ["es", "cjs"];
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
-await build({
-  build: {
-    outDir: "dist/node",
-    lib: {
-      entry: path.resolve(process.cwd(), "lib/node/index.ts"),
-      formats,
-      fileName,
-    },
-    rollupOptions: {
-      external: [/@remix-run\/dev\/.+/g, "vite"],
-    },
-  },
+const dist = path.join(__dirname, "..", "dist");
+
+const watch = process.argv.includes("--watch");
+
+await fs
+  .access(dist)
+  .then(() => fs.rm(dist, { recursive: true }))
+  .catch(() => {});
+
+const nodeBuild = tsup.build({
+  entryPoints: ["lib/node/index.ts"],
+  format: ["esm", "cjs"],
+  dts: true,
+  outDir: "dist/node",
+  watch,
 });
 
-await build({
-  build: {
-    outDir: "dist/client",
-    lib: {
-      entry: path.resolve(process.cwd(), "lib/client/index.ts"),
-      formats,
-      fileName,
-    },
-    rollupOptions: {
-      external: ["react", "react-router-dom"],
-    },
-  },
+const clientBuild = tsup.build({
+  entryPoints: ["lib/client/index.ts"],
+  format: ["esm", "cjs"],
+  dts: true,
+  outDir: "dist/client",
+  watch,
 });
+
+await Promise.all([nodeBuild, clientBuild]);
