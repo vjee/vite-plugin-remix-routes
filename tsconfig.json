@@ -11,6 +11,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
+    "types": ["node", "vitest/globals"]
   },
   "exclude": ["examples"]
 }
