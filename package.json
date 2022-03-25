@@ -39,6 +39,7 @@
   "types": "dist/node/index.d.ts",
   "scripts": {
     "build": "node --experimental-loader esbuild-node-loader scripts/build.ts",
+    "build:watch": "npm run build --watch",
     "test": "vitest --globals",
     "prepublish": "npm run build"
   },
