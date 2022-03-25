@@ -24,14 +24,15 @@ remixRoutes({
 
 ## Options
 
-### appDir
+### appDirectory
+
+https://remix.run/docs/en/v1/api/conventions#appdirectory
 
 - **Optional**
 - **Type**: `string`
-- **Default**: `path.join(process.cwd(), "src")`
+- **Default**: `path.join(process.cwd(), "app")`
 
 An absolute path to the folder containing the `routes` folder.
-This will most likely be your `/src` folder.
 
 ### importMode
 
@@ -52,6 +53,24 @@ A function that receives a `Route` to determine if it should be a 404 route. (`p
 By default this matches all routes whose id's end with `/404`.
 
 A route's `id` is the component path without extension.
+
+### routes
+
+https://remix.run/docs/en/v1/api/conventions#routes
+
+- **Optional**
+- **Type**: `(defineRoutes: DefineRoutesFunction) => Promise<ReturnType<DefineRoutesFunction>>`
+
+A function for defining custom routes, in addition to those already defined using the filesystem convention in app/routes. Both sets of routes will be merged.
+
+### ignoredRouteFiles
+
+- **Optional**
+- **Type**: `string[]`
+
+https://remix.run/docs/en/v1/api/conventions#ignoredroutefiles
+
+This is an array of globs (via minimatch) that Remix will match to files while reading your app/routes directory. If a file matches, it will be ignored rather that treated like a route module. This is useful for ignoring dotfiles (like .DS_Store files) or CSS/test files you wish to colocate.
 
 ## Usage
 
