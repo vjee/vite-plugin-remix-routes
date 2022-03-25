@@ -1,17 +1,14 @@
 import path from "node:path";
 import url from "node:url";
 
-import routesStringFixture from "./fixtures/routes-string.js";
-import componentsStringFixture from "./fixtures/components-string.js";
-
 import { getRoutes, stringifyRoutes } from "../lib/node";
 import type { Context } from "../lib/node/utils";
 
 const dirname = path.dirname(url.fileURLToPath(import.meta.url));
-const appDir = path.join(dirname, "../examples/basic/src");
+const appDirectory = path.join(dirname, "../examples/basic/src");
 
 test("stringifyRoutes", async () => {
-  const routes = getRoutes({ appDir });
+  const routes = await getRoutes({ appDirectory });
   const prefix = "/src";
   const importMode: Context["importMode"] = (route) =>
     route.id.startsWith("routes/demos/about") ? "async" : "sync";
@@ -21,6 +18,6 @@ test("stringifyRoutes", async () => {
     importMode,
   });
 
-  expect(routesString).toEqual(routesStringFixture);
-  expect(componentsString).toEqual(componentsStringFixture);
+  expect(routesString).toMatchSnapshot();
+  expect(componentsString).toMatchSnapshot();
 });

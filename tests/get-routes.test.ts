@@ -1,16 +1,45 @@
 import path from "node:path";
 import url from "node:url";
 
-import routesArrayFixture from "./fixtures/routes-array.js";
-
 import { getRoutes } from "../lib/node";
 
 const dirname = path.dirname(url.fileURLToPath(import.meta.url));
-const appDir = path.join(dirname, "../examples/basic/src");
+const appDirectory = path.join(dirname, "../examples/basic/src");
 
 test("getRoutes", async () => {
-  const routes = getRoutes({ appDir });
-  const actual = JSON.stringify(routes, null, 4);
+  const routes = await getRoutes({ appDirectory });
 
-  expect(actual).toEqual(routesArrayFixture);
+  expect(routes).toMatchSnapshot();
+});
+
+test("getRoutes with manual routes specified by options", async () => {
+  const file = "routes/demos/about/whoa.tsx";
+  const path = "/foo/bar";
+  const routes = await getRoutes({
+    appDirectory,
+    routes: async (defineRoutes) => {
+      return defineRoutes((route) => {
+        route(path, file);
+      });
+    },
+  });
+
+  expect(routes).toMatchSnapshot();
+  expect(routes.find((r) => r.path === path)).toContain({ file });
+});
+
+test("getRoutes ignores files from ignoredRouteFiles", async () => {
+  // Verify the positive case first
+  let routes = await getRoutes({
+    appDirectory,
+  });
+  const testRoute = routes.find((r) => r.file === "routes/one.two.three.tsx");
+  expect(routes).toContain(testRoute);
+
+  // Then ensure that it actually is removed
+  routes = await getRoutes({
+    appDirectory,
+    ignoredRouteFiles: ["one.two.three.tsx"],
+  });
+  expect(routes).not.toContain(testRoute);
 });

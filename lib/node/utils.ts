@@ -1,5 +1,11 @@
 import type { Route } from "./remix";
 
+export type RequireOnly<Object, Keys extends keyof Object> = Omit<
+  Object,
+  Keys
+> &
+  Required<Pick<Object, Keys>>;
+
 export interface Context {
   prefix: string;
   importMode?: (route: Route) => "sync" | "async";
