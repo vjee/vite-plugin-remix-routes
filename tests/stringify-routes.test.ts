@@ -1,12 +1,11 @@
 import path from "node:path";
 import url from "node:url";
-import { test } from "uvu";
-import * as assert from "uvu/assert";
 
 import routesStringFixture from "./fixtures/routes-string.js";
 import componentsStringFixture from "./fixtures/components-string.js";
 
-import { getRoutes, stringifyRoutes } from "../dist/node";
+import { getRoutes, stringifyRoutes } from "../lib/node";
+import type { Context } from "../lib/node/utils";
 
 const dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const appDir = path.join(dirname, "../examples/basic/src");
@@ -14,7 +13,7 @@ const appDir = path.join(dirname, "../examples/basic/src");
 test("stringifyRoutes", async () => {
   const routes = getRoutes({ appDir });
   const prefix = "/src";
-  const importMode = (route) =>
+  const importMode: Context["importMode"] = (route) =>
     route.id.startsWith("routes/demos/about") ? "async" : "sync";
 
   const { routesString, componentsString } = stringifyRoutes(routes, {
@@ -22,8 +21,6 @@ test("stringifyRoutes", async () => {
     importMode,
   });
 
-  assert.fixture(routesString, routesStringFixture);
-  assert.fixture(componentsString, componentsStringFixture);
+  expect(routesString).toEqual(routesStringFixture);
+  expect(componentsString).toEqual(componentsStringFixture);
 });
-
-test.run();

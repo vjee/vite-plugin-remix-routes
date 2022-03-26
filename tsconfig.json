@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "noEmit": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "preserve",
@@ -10,6 +11,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
-    "types": ["node"]
-  }
+    "types": ["node", "vitest/globals"]
+  },
+  "exclude": ["examples"]
 }

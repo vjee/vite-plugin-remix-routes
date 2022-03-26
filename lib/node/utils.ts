@@ -1,6 +1,6 @@
 import type { Route } from "./remix";
 
-interface Context {
+export interface Context {
   prefix: string;
   importMode?: (route: Route) => "sync" | "async";
 }

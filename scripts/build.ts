@@ -8,21 +8,27 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 const dist = path.join(__dirname, "..", "dist");
 
+const watch = process.argv.includes("--watch");
+
 await fs
   .access(dist)
   .then(() => fs.rm(dist, { recursive: true }))
   .catch(() => {});
 
-await tsup.build({
+const nodeBuild = tsup.build({
   entryPoints: ["lib/node/index.ts"],
   format: ["esm", "cjs"],
   dts: true,
   outDir: "dist/node",
+  watch,
 });
 
-await tsup.build({
+const clientBuild = tsup.build({
   entryPoints: ["lib/client/index.ts"],
-  format: ["esm"],
+  format: ["esm", "cjs"],
   dts: true,
   outDir: "dist/client",
+  watch,
 });
+
+await Promise.all([nodeBuild, clientBuild]);
