@@ -10,14 +10,6 @@ import { stringifyRoutes } from "./utils";
 export interface Options extends PluginOptions, RemixOptions {}
 export interface PluginOptions {
   /**
-   * An absolute path to the folder containing the `routes` folder.
-   * This will most likely be your `/src` folder.
-   *
-   * @deprecated Use `appDirectory` instead
-   */
-  appDir?: string;
-
-  /**
    * A function that receives a `Route` to determine if the route's component
    * should be imported synchronously or asynchronously.
    *

@@ -13,7 +13,7 @@ export type RemixOptions = Pick<
   "appDirectory" | "routes" | "ignoredRouteFiles"
 >;
 
-type GetRouteOptions = Omit<PluginOptions, "appDir" | "importModule"> &
+type GetRouteOptions = Omit<PluginOptions, "importModule"> &
   RequireOnly<RemixOptions, "appDirectory">;
 
 /**
