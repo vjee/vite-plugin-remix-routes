@@ -1,10 +1,7 @@
 import path from "node:path";
-import url from "node:url";
 import fs from "node:fs/promises";
 
 import tsup from "tsup";
-
-const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 const dist = path.join(__dirname, "..", "dist");
 
