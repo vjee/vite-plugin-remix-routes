@@ -24,6 +24,7 @@ export async function getRoutes(options: GetRouteOptions) {
     appDirectory,
     is404Route = (route) => route.id.endsWith("/404"),
     ignoredRouteFiles,
+    routes,
   } = options;
 
   const routeManifest: RouteManifest = {
@@ -43,8 +44,8 @@ export async function getRoutes(options: GetRouteOptions) {
     };
   }
 
-  if (options.routes) {
-    let manualRoutes = await options.routes(defineRoutes);
+  if (routes) {
+    let manualRoutes = await routes(defineRoutes);
     for (const key of Object.keys(manualRoutes)) {
       const route = manualRoutes[key];
       routeManifest[route.id] = {
@@ -54,7 +55,7 @@ export async function getRoutes(options: GetRouteOptions) {
     }
   }
 
-  const routes = createRoutes(routeManifest)[0].children;
+  const routeConfig = createRoutes(routeManifest)[0].children;
 
   // This is not part of remix.
   const modifyRoute = (route: Route): Route => ({
@@ -63,7 +64,7 @@ export async function getRoutes(options: GetRouteOptions) {
     children: route.children.map(modifyRoute),
   });
 
-  return routes.map(modifyRoute);
+  return routeConfig.map(modifyRoute);
 }
 
 /**
