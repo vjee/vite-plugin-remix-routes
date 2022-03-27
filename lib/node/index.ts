@@ -39,35 +39,20 @@ export interface PluginOptions {
 function plugin(options: Options = {}): Plugin {
   const virtualModuleId = "virtual:remix-routes";
 
-  const {
-    appDir: _appDir,
-    appDirectory = _appDir,
-    importMode,
-    ...otherOptions
-  } = options;
+  const { appDirectory = "app", importMode, ...otherOptions } = options;
 
-  let dir = "";
+  const dir = path.resolve(process.cwd(), appDirectory);
 
-  // Check both src for backwards compatibility and app for remix's normal default
-  if (appDirectory) {
-    dir = path.resolve(process.cwd(), appDirectory);
-  } else {
-    const srcDir = path.resolve(process.cwd(), "src");
-    const appDir = path.resolve(process.cwd(), "app");
-
-    if (!dir && fs.existsSync(srcDir)) {
-      dir = srcDir;
-    }
-
-    if (!dir && fs.existsSync(appDir)) {
-      dir = appDir;
-    }
-
-    if (!dir) {
-      throw new Error(
-        "[vite-plugin-remix-routes] appDirectory not found, please specify it in the plugin's config"
-      );
-    }
+  if (
+    !fs.existsSync(path.join(dir, "routes")) ||
+    !fs.statSync(path.join(dir, "routes")).isDirectory()
+  ) {
+    throw new Error(
+      `[vite-plugin-remix-routes] routes directory not found in appDirectory: ${path.relative(
+        process.cwd(),
+        appDirectory
+      )}`
+    );
   }
 
   const prefix = `.${path.sep}${path.relative(process.cwd(), dir)}`;
