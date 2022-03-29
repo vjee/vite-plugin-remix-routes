@@ -5,6 +5,7 @@
 ### Breaking
 
 - `appDir` is now `appDirectory` to match remix's config
+- `appDirectory` defaults to "app" instead of "src" to match remix
 
 ### Added
 
