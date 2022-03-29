@@ -1,22 +1,40 @@
 import { defineConventionalRoutes } from "@remix-run/dev/config/routesConvention";
-import type { ConfigRoute, RouteManifest } from "@remix-run/dev/config/routes";
+import {
+  ConfigRoute,
+  RouteManifest,
+  defineRoutes,
+} from "@remix-run/dev/config/routes";
+import type { PluginOptions } from "./index";
+import type { AppConfig } from "@remix-run/dev/config";
+import type { RequireOnly } from "./utils";
 
-interface Options {
-  appDir: string;
-  is404Route?: (route: Route) => boolean;
-}
+export type RemixOptions = Pick<
+  AppConfig,
+  "appDirectory" | "routes" | "ignoredRouteFiles"
+>;
+
+type GetRouteOptions = Omit<PluginOptions, "importModule"> &
+  RequireOnly<RemixOptions, "appDirectory">;
 
 /**
  * See `readConfig` in @remix-run/dev/config.ts
  */
-export function getRoutes(options: Options) {
-  const { appDir, is404Route = (route) => route.id.endsWith("/404") } = options;
+export async function getRoutes(options: GetRouteOptions) {
+  const {
+    appDirectory,
+    is404Route = (route) => route.id.endsWith("/404"),
+    ignoredRouteFiles,
+    routes,
+  } = options;
 
   const routeManifest: RouteManifest = {
     root: { path: "", id: "root", file: "routes/index" },
   };
 
-  const conventionalRoutes = defineConventionalRoutes(appDir);
+  const conventionalRoutes = defineConventionalRoutes(
+    appDirectory,
+    ignoredRouteFiles
+  );
 
   for (const key of Object.keys(conventionalRoutes)) {
     const route = conventionalRoutes[key];
@@ -26,7 +44,18 @@ export function getRoutes(options: Options) {
     };
   }
 
-  const routes = createRoutes(routeManifest)[0].children;
+  if (routes) {
+    let manualRoutes = await routes(defineRoutes);
+    for (const key of Object.keys(manualRoutes)) {
+      const route = manualRoutes[key];
+      routeManifest[route.id] = {
+        ...route,
+        parentId: route.parentId || "root",
+      };
+    }
+  }
+
+  const routeConfig = createRoutes(routeManifest)[0].children;
 
   // This is not part of remix.
   const modifyRoute = (route: Route): Route => ({
@@ -35,7 +64,7 @@ export function getRoutes(options: Options) {
     children: route.children.map(modifyRoute),
   });
 
-  return routes.map(modifyRoute);
+  return routeConfig.map(modifyRoute);
 }
 
 /**

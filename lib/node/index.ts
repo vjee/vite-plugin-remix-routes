@@ -1,19 +1,14 @@
 import path from "node:path";
+import fs from "node:fs";
+
 import type { Plugin } from "vite";
 
-import { getRoutes } from "./remix";
+import { getRoutes, RemixOptions } from "./remix";
 import type { Route } from "./remix";
 import { stringifyRoutes } from "./utils";
 
-interface Options {
-  /**
-   * An absolute path to the folder containing the `routes` folder.
-   * This will most likely be your `/src` folder.
-   *
-   * @default path.join(process.cwd(), "src")
-   */
-  appDir?: string;
-
+export interface Options extends PluginOptions, RemixOptions {}
+export interface PluginOptions {
   /**
    * A function that receives a `Route` to determine if the route's component
    * should be imported synchronously or asynchronously.
@@ -36,13 +31,23 @@ interface Options {
 function plugin(options: Options = {}): Plugin {
   const virtualModuleId = "virtual:remix-routes";
 
-  const {
-    appDir = path.join(process.cwd(), "src"),
-    importMode,
-    is404Route,
-  } = options;
+  const { appDirectory = "app", importMode, ...otherOptions } = options;
 
-  const prefix = appDir.replace(process.cwd(), "");
+  const dir = path.resolve(process.cwd(), appDirectory);
+
+  if (
+    !fs.existsSync(path.join(dir, "routes")) ||
+    !fs.statSync(path.join(dir, "routes")).isDirectory()
+  ) {
+    throw new Error(
+      `[vite-plugin-remix-routes] routes directory not found in appDirectory: ${path.relative(
+        process.cwd(),
+        appDirectory
+      )}`
+    );
+  }
+
+  const prefix = `.${path.sep}${path.relative(process.cwd(), dir)}`;
 
   return {
     name: "vite-plugin-remix-routes",
@@ -53,9 +58,9 @@ function plugin(options: Options = {}): Plugin {
       }
     },
 
-    load(id) {
+    async load(id) {
       if (id === virtualModuleId) {
-        const routes = getRoutes({ appDir, is404Route });
+        const routes = await getRoutes({ appDirectory: dir, ...otherOptions });
 
         const { routesString, componentsString } = stringifyRoutes(routes, {
           prefix,

@@ -1,5 +1,20 @@
 # Changelog
 
+## [Unreleased]
+
+### Breaking
+
+- `appDir` is now `appDirectory` to match remix's config
+
+### Added
+
+- Support remix's [`route`](https://remix.run/docs/en/v1/api/conventions#routes) and [`ignoredRouteFiles`](https://remix.run/docs/en/v1/api/conventions#ignoredroutefiles) configuration
+- `build:watch` command for development
+
+### Changed
+
+- Tests now use vitest
+
 ## [0.1.3]
 
 ### Fixed

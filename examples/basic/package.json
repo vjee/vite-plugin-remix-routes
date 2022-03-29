@@ -14,7 +14,7 @@
     "@types/react-dom": "^17.0.11",
     "@vitejs/plugin-react": "^1.1.0",
     "typescript": "^4.5.3",
-    "vite": "^2.6.14",
+    "vite": "^2.8.6",
     "vite-plugin-remix-routes": "*"
   }
 }
