@@ -15,6 +15,6 @@
     "@vitejs/plugin-react": "^1.1.0",
     "typescript": "^4.5.3",
     "vite": "^2.8.6",
-    "vite-plugin-remix-routes": "*"
+    "vite-plugin-remix-routes": "../.."
   }
 }
