@@ -3,14 +3,14 @@
 exports[`stringifyRoutes 1`] = `"[{path:'one/two/three',element:createElement(RoutesOneTwoThree)},{path:'demos/params',element:createElement(RoutesDemosParams),children:[{element:createElement(RoutesDemosParamsIndex),index:true},{path:':id',element:createElement(RoutesDemosParams$id)}]},{path:'demos/about',element:createElement(lazy(RoutesDemosAbout)),loader:RoutesDemosAbout,children:[{element:createElement(lazy(RoutesDemosAboutIndex)),loader:RoutesDemosAboutIndex,index:true},{path:'whoa',element:createElement(lazy(RoutesDemosAboutWhoa)),loader:RoutesDemosAboutWhoa},{path:'*',element:createElement(lazy(RoutesDemosAbout404)),loader:RoutesDemosAbout404}]},{element:createElement(RoutesIndex),index:true},{path:'*',element:createElement(Routes404)}]"`;
 
 exports[`stringifyRoutes 2`] = `
-"import RoutesOneTwoThree from '/src/routes/one.two.three.tsx';
-import RoutesDemosParams from '/src/routes/demos/params.tsx';
-import RoutesDemosParamsIndex from '/src/routes/demos/params/index.tsx';
-import RoutesDemosParams$id from '/src/routes/demos/params/$id.tsx';
-import RoutesIndex from '/src/routes/index.tsx';
-import Routes404 from '/src/routes/404.tsx';
-const RoutesDemosAbout = () => import('/src/routes/demos/about.tsx');
-const RoutesDemosAboutIndex = () => import('/src/routes/demos/about/index.tsx');
-const RoutesDemosAboutWhoa = () => import('/src/routes/demos/about/whoa.tsx');
-const RoutesDemosAbout404 = () => import('/src/routes/demos/about/404.tsx');"
+"import RoutesOneTwoThree from '/app/routes/one.two.three.tsx';
+import RoutesDemosParams from '/app/routes/demos/params.tsx';
+import RoutesDemosParamsIndex from '/app/routes/demos/params/index.tsx';
+import RoutesDemosParams$id from '/app/routes/demos/params/$id.tsx';
+import RoutesIndex from '/app/routes/index.tsx';
+import Routes404 from '/app/routes/404.tsx';
+const RoutesDemosAbout = () => import('/app/routes/demos/about.tsx');
+const RoutesDemosAboutIndex = () => import('/app/routes/demos/about/index.tsx');
+const RoutesDemosAboutWhoa = () => import('/app/routes/demos/about/whoa.tsx');
+const RoutesDemosAbout404 = () => import('/app/routes/demos/about/404.tsx');"
 `;

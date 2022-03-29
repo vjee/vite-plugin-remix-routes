@@ -4,7 +4,7 @@ import url from "node:url";
 import { getRoutes } from "../lib/node";
 
 const dirname = path.dirname(url.fileURLToPath(import.meta.url));
-const appDirectory = path.join(dirname, "../examples/basic/src");
+const appDirectory = path.join(dirname, "../examples/basic/app");
 
 test("getRoutes", async () => {
   const routes = await getRoutes({ appDirectory });
