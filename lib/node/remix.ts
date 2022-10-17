@@ -1,11 +1,11 @@
-import { defineConventionalRoutes } from "@remix-run/dev/config/routesConvention";
+import { defineConventionalRoutes } from "@remix-run/dev/dist/config/routesConvention";
 import {
   ConfigRoute,
   RouteManifest,
   defineRoutes,
-} from "@remix-run/dev/config/routes";
+} from "@remix-run/dev/dist/config/routes";
 import type { PluginOptions } from "./index";
-import type { AppConfig } from "@remix-run/dev/config";
+import type { AppConfig } from "@remix-run/dev/dist/config";
 import type { RequireOnly } from "./utils";
 
 export type RemixOptions = Pick<
