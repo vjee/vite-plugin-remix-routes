@@ -21,3 +21,17 @@ test("stringifyRoutes", async () => {
   expect(routesString).toMatchSnapshot();
   expect(componentsString).toMatchSnapshot();
 });
+
+test("stringifyRoutes for dataBrowser", async () => {
+  const routes = await getRoutes({ appDirectory });
+  const prefix = "/app";
+  const importMode: Context["importMode"] = () => "dataRoute";
+
+  const { routesString, componentsString } = stringifyRoutes(routes, {
+    prefix,
+    importMode,
+  });
+
+  expect(routesString).toMatchSnapshot();
+  expect(componentsString).toMatchSnapshot();
+});

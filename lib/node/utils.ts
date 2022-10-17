@@ -8,7 +8,7 @@ export type RequireOnly<Object, Keys extends keyof Object> = Omit<
 
 export interface Context {
   prefix: string;
-  importMode?: (route: Route) => "sync" | "async";
+  importMode?: (route: Route) => "sync" | "async" | "dataRoute";
 }
 
 interface Components {
@@ -66,6 +66,19 @@ function routeToString(
     components.sync.push(`import ${componentName} from '${componentPath}';`);
 
     props.set("element", `createElement(${componentName})`);
+  }
+
+  if (importMode === "dataRoute") {
+    components.sync.push(
+      `import * as ${componentName} from '${componentPath}';`
+    );
+
+    props.set("element", `createElement(${componentName}.default)`);
+    props.set("loader", `${componentName}.loader`);
+    props.set("action", `${componentName}.action`);
+    props.set("errorElement", `${componentName}.errorBoundary`);
+    props.set("handle", `${componentName}.handle`);
+    props.set("shouldRevalidate", `${componentName}.shouldRevalidate`);
   }
 
   if (route.index === true) {

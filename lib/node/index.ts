@@ -15,7 +15,7 @@ export interface PluginOptions {
    *
    * @default () => "sync"
    */
-  importMode?: (route: Route) => "async" | "sync";
+  importMode?: (route: Route) => "async" | "sync" | "dataRoute";
 
   /**
    * A function that receives a `Route` to determine if it should be a 404 route. (`path="*"`)
