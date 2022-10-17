@@ -99,6 +99,24 @@ render(
 );
 ```
 
+## Data browser nested routes
+
+The Data browser API can be used with option `importMode` routeData.
+
+**Example:**
+
+````jsx
+import { render } from "react-dom";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import remixRoutes from "virtual:remix-routes";
+
+const routes = createBrowserRouter(remixRoutes);
+
+render(
+  <RouterProvider router={routes} fallbackElement={<div>loading</div>} />,
+  document.querySelector("#app")
+);
+
 ## Async nested routes
 
 When you configure routes to be imported asynchronously with the `importMode` option, it is important to note that this can create a request waterfall.
@@ -135,7 +153,7 @@ render(
   </BrowserRouter>,
   document.querySelector("#app")
 );
-```
+````
 
 Note that if you don't render an `<Outlet />` in one of the parent components, this will still load the subcomponent(s), even though React will not render it and would not have loaded it.\
 But in that case, you probably don't want a nested route anyway.
