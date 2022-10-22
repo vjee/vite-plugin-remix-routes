@@ -48,7 +48,6 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.21",
-    "esbuild-node-loader": "^0.8.0",
     "react": "^18.2.0",
     "react-router-dom": "^6.4.2",
     "tsup": "^6.3.0",
