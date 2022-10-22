@@ -1,16 +1,12 @@
 import { StrictMode, Suspense } from "react";
-import { render } from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { createRoot } from "react-dom/client";
 
 import App from "./app";
 
-render(
+createRoot(document.querySelector("#app")!).render(
   <StrictMode>
-    <BrowserRouter>
-      <Suspense fallback="Loading...">
-        <App />
-      </Suspense>
-    </BrowserRouter>
-  </StrictMode>,
-  document.querySelector("#app")
+    <Suspense fallback={<div>Loading...</div>}>
+      <App />
+    </Suspense>
+  </StrictMode>
 );

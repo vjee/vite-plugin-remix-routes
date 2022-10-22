@@ -3,9 +3,7 @@ import type { ComponentType } from "react";
 import { matchRoutes, useLocation } from "react-router-dom";
 import type { RouteObject } from "react-router-dom";
 
-interface Route extends RouteObject {
-  loader?: () => Promise<ComponentType>;
-}
+type Route = RouteObject & { importPromise?: () => Promise<ComponentType> };
 
 interface Props {
   routes: Route[];
@@ -19,7 +17,7 @@ export default function EagerLoader({ routes }: Props) {
 
     matches.forEach((match) => {
       const route = match.route as Route;
-      if (route.loader) route.loader();
+      if (route.importPromise) route.importPromise();
     });
   }, [location]);
 

@@ -8,7 +8,8 @@ export type RequireOnly<Object, Keys extends keyof Object> = Omit<
 
 export interface Context {
   prefix: string;
-  importMode?: (route: Route) => "sync" | "async" | "dataRoute";
+  dataRouterCompatible?: boolean;
+  importMode?: (route: Route) => "sync" | "async";
 }
 
 interface Components {
@@ -53,32 +54,38 @@ function routeToString(
     props.set("path", `'${route.path}'`);
   }
 
-  if (importMode === "async") {
-    components.async.push(
-      `const ${componentName} = () => import('${componentPath}');`
-    );
-
-    props.set("element", `createElement(lazy(${componentName}))`);
-    props.set("loader", componentName);
-  }
-
-  if (importMode === "sync") {
-    components.sync.push(`import ${componentName} from '${componentPath}';`);
-
-    props.set("element", `createElement(${componentName})`);
-  }
-
-  if (importMode === "dataRoute") {
+  if (context.dataRouterCompatible) {
     components.sync.push(
       `import * as ${componentName} from '${componentPath}';`
     );
 
-    props.set("element", `createElement(${componentName}.default)`);
+    props.set(
+      "element",
+      `${componentName}.default ? createElement(${componentName}.default) : undefined`
+    );
     props.set("loader", `${componentName}.loader`);
     props.set("action", `${componentName}.action`);
-    props.set("errorElement", `${componentName}.errorBoundary`);
+    props.set(
+      "errorElement",
+      `${componentName}.ErrorBoundary ? createElement(${componentName}.ErrorBoundary) : undefined`
+    );
     props.set("handle", `${componentName}.handle`);
     props.set("shouldRevalidate", `${componentName}.shouldRevalidate`);
+  } else {
+    if (importMode === "async") {
+      components.async.push(
+        `const ${componentName} = () => import('${componentPath}');`
+      );
+
+      props.set("element", `createElement(lazy(${componentName}))`);
+      props.set("importPromise", componentName);
+    }
+
+    if (importMode === "sync") {
+      components.sync.push(`import ${componentName} from '${componentPath}';`);
+
+      props.set("element", `createElement(${componentName})`);
+    }
   }
 
   if (route.index === true) {

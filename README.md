@@ -34,7 +34,19 @@ https://remix.run/docs/en/v1/api/conventions#appdirectory
 
 An absolute path to the folder containing the `routes` folder.
 
+### dataRouterCompatible
+
+- **Optional**
+- **Type**: `boolean`
+- **Default**: `true`
+
+Set this to `false` if you're not using a router compatible with the data APIs
+released in `react-router` 6.4.\
+https://reactrouter.com/en/main/routers/picking-a-router#using-v64-data-apis
+
 ### importMode
+
+> NOTE: This option only works if `dataRouterCompatible` is set to `false`.
 
 - **Optional**
 - **Type**: `(route: Route) => "async" | "sync"`
@@ -43,6 +55,8 @@ An absolute path to the folder containing the `routes` folder.
 A function that receives a `Route` to determine if the route's component should be imported synchronously or asynchronously.
 
 ### is404Route
+
+> NOTE: This option only works if `dataRouterCompatible` is set to `false`. You should use an `ErrorBoundary` component instead.
 
 - **Optional**
 - **Type**: `(route: Route) => boolean`
@@ -75,18 +89,42 @@ This is an array of globs (via minimatch) that Remix will match to files while r
 ## Usage
 
 ```js
-import routes from "virtual:remix-routes";
+import remixRoutes from "virtual:remix-routes";
 ```
 
-**Example:**
+**Example**
+
+```jsx
+import { render } from "react-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import remixRoutes from "virtual:remix-routes";
+
+// Note: This example only works with react-router >= 6.4
+const router = createBrowserRouter([
+  {
+    path: "/",
+    children: remixRoutes,
+    // You can add your own `element`, `errorElement`, `loader`, ...
+  },
+]);
+
+render(
+  <RouterProvider router={router}>
+    <App />
+  </RouterProvider>,
+  document.querySelector("#app")
+);
+```
+
+**Example (`dataRouterCompatible = false`):**
 
 ```jsx
 import { render } from "react-dom";
 import { BrowserRouter, useRoutes } from "react-router-dom";
-import routes from "virtual:remix-routes";
+import remixRoutes from "virtual:remix-routes";
 
 function App() {
-  const element = useRoutes(routes);
+  const element = useRoutes(remixRoutes);
 
   return <>{element}</>;
 }
@@ -98,24 +136,6 @@ render(
   document.querySelector("#app")
 );
 ```
-
-## Data browser nested routes
-
-The Data browser API can be used with option `importMode` routeData.
-
-**Example:**
-
-````jsx
-import { render } from "react-dom";
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import remixRoutes from "virtual:remix-routes";
-
-const routes = createBrowserRouter(remixRoutes);
-
-render(
-  <RouterProvider router={routes} fallbackElement={<div>loading</div>} />,
-  document.querySelector("#app")
-);
 
 ## Async nested routes
 
@@ -153,7 +173,7 @@ render(
   </BrowserRouter>,
   document.querySelector("#app")
 );
-````
+```
 
 Note that if you don't render an `<Outlet />` in one of the parent components, this will still load the subcomponent(s), even though React will not render it and would not have loaded it.\
 But in that case, you probably don't want a nested route anyway.

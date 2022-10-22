@@ -1,19 +1,34 @@
-import { defineConventionalRoutes } from "@remix-run/dev/dist/config/routesConvention";
-import {
+import type {
   ConfigRoute,
   RouteManifest,
-  defineRoutes,
 } from "@remix-run/dev/dist/config/routes";
 import type { PluginOptions } from "./index";
 import type { AppConfig } from "@remix-run/dev/dist/config";
 import type { RequireOnly } from "./utils";
+
+let defineConventionalRoutes: typeof import("@remix-run/dev/dist/config/routesConvention").defineConventionalRoutes;
+let defineRoutes: typeof import("@remix-run/dev/dist/config/routes").defineRoutes;
+
+try {
+  defineConventionalRoutes =
+    require("@remix-run/dev/config/routesConvention").defineConventionalRoutes;
+} catch (e) {
+  defineConventionalRoutes =
+    require("@remix-run/dev/dist/config/routesConvention").defineConventionalRoutes;
+}
+
+try {
+  defineRoutes = require("@remix-run/dev/config/routes").defineRoutes;
+} catch (e) {
+  defineRoutes = require("@remix-run/dev/dist/config/routes").defineRoutes;
+}
 
 export type RemixOptions = Pick<
   AppConfig,
   "appDirectory" | "routes" | "ignoredRouteFiles"
 >;
 
-type GetRouteOptions = Omit<PluginOptions, "importModule"> &
+type GetRouteOptions = Omit<PluginOptions, "importMode"> &
   RequireOnly<RemixOptions, "appDirectory">;
 
 /**
@@ -22,13 +37,14 @@ type GetRouteOptions = Omit<PluginOptions, "importModule"> &
 export async function getRoutes(options: GetRouteOptions) {
   const {
     appDirectory,
+    dataRouterCompatible = true,
     is404Route = (route) => route.id.endsWith("/404"),
     ignoredRouteFiles,
     routes,
   } = options;
 
   const routeManifest: RouteManifest = {
-    root: { path: "", id: "root", file: "routes/index" },
+    root: { path: "", id: "root", file: "" },
   };
 
   const conventionalRoutes = defineConventionalRoutes(
@@ -60,7 +76,7 @@ export async function getRoutes(options: GetRouteOptions) {
   // This is not part of remix.
   const modifyRoute = (route: Route): Route => ({
     ...route,
-    path: is404Route(route) ? "*" : route.path,
+    path: !dataRouterCompatible && is404Route(route) ? "*" : route.path,
     children: route.children.map(modifyRoute),
   });
 
