@@ -29,7 +29,7 @@ export interface PluginOptions {
   importMode?: (route: Route) => "async" | "sync";
 
   /**
-   * NOTE: This option only works if `dataRouterCompatible` is set to `false`.
+   * NOTE: This option only works if `dataRouterCompatible` is set to `false`. You should use an `ErrorBoundary` component instead.
    *
    * A function that receives a `Route` to determine if it should be a 404 route. (`path="*"`)
    * By default this matches the same 404 file as Remix does.
