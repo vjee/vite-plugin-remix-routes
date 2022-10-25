@@ -1,8 +1,18 @@
-import { useRoutes } from "react-router-dom";
-import routes from "virtual:remix-routes";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import remixRoutes from "virtual:remix-routes";
+import * as Root from "./root";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root.default />,
+    errorElement: <Root.ErrorBoundary />,
+    children: remixRoutes,
+  },
+]);
 
 export default function App() {
-  const element = useRoutes(routes);
-
-  return <>{element}</>;
+  return (
+    <RouterProvider router={router} fallbackElement={<div>Loading...</div>} />
+  );
 }

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`stringifyRoutes 1`] = `"[{path:'one/two/three',element:createElement(RoutesOneTwoThree)},{path:'demos/params',element:createElement(RoutesDemosParams),children:[{element:createElement(RoutesDemosParamsIndex),index:true},{path:':id',element:createElement(RoutesDemosParams$id)}]},{path:'demos/about',element:createElement(lazy(RoutesDemosAbout)),loader:RoutesDemosAbout,children:[{element:createElement(lazy(RoutesDemosAboutIndex)),loader:RoutesDemosAboutIndex,index:true},{path:'whoa',element:createElement(lazy(RoutesDemosAboutWhoa)),loader:RoutesDemosAboutWhoa},{path:'*',element:createElement(lazy(RoutesDemosAbout404)),loader:RoutesDemosAbout404}]},{element:createElement(RoutesIndex),index:true},{path:'*',element:createElement(Routes404)}]"`;
+exports[`stringifyRoutes 1`] = `"[{path:'one/two/three',element:createElement(RoutesOneTwoThree)},{path:'demos/params',element:createElement(RoutesDemosParams),children:[{element:createElement(RoutesDemosParamsIndex),index:true},{path:':id',element:createElement(RoutesDemosParams$id)}]},{path:'demos/about',element:createElement(lazy(RoutesDemosAbout)),importPromise:RoutesDemosAbout,children:[{element:createElement(lazy(RoutesDemosAboutIndex)),importPromise:RoutesDemosAboutIndex,index:true},{path:'whoa',element:createElement(lazy(RoutesDemosAboutWhoa)),importPromise:RoutesDemosAboutWhoa}]},{element:createElement(RoutesIndex),index:true}]"`;
 
 exports[`stringifyRoutes 2`] = `
 "import RoutesOneTwoThree from '/app/routes/one.two.three.tsx';
@@ -8,9 +8,20 @@ import RoutesDemosParams from '/app/routes/demos/params.tsx';
 import RoutesDemosParamsIndex from '/app/routes/demos/params/index.tsx';
 import RoutesDemosParams$id from '/app/routes/demos/params/$id.tsx';
 import RoutesIndex from '/app/routes/index.tsx';
-import Routes404 from '/app/routes/404.tsx';
 const RoutesDemosAbout = () => import('/app/routes/demos/about.tsx');
 const RoutesDemosAboutIndex = () => import('/app/routes/demos/about/index.tsx');
-const RoutesDemosAboutWhoa = () => import('/app/routes/demos/about/whoa.tsx');
-const RoutesDemosAbout404 = () => import('/app/routes/demos/about/404.tsx');"
+const RoutesDemosAboutWhoa = () => import('/app/routes/demos/about/whoa.tsx');"
+`;
+
+exports[`stringifyRoutes for data router 1`] = `"[{path:'one/two/three',element:RoutesOneTwoThree.default ? createElement(RoutesOneTwoThree.default) : undefined,loader:RoutesOneTwoThree.loader,action:RoutesOneTwoThree.action,errorElement:RoutesOneTwoThree.ErrorBoundary ? createElement(RoutesOneTwoThree.ErrorBoundary) : undefined,handle:RoutesOneTwoThree.handle,shouldRevalidate:RoutesOneTwoThree.shouldRevalidate},{path:'demos/params',element:RoutesDemosParams.default ? createElement(RoutesDemosParams.default) : undefined,loader:RoutesDemosParams.loader,action:RoutesDemosParams.action,errorElement:RoutesDemosParams.ErrorBoundary ? createElement(RoutesDemosParams.ErrorBoundary) : undefined,handle:RoutesDemosParams.handle,shouldRevalidate:RoutesDemosParams.shouldRevalidate,children:[{element:RoutesDemosParamsIndex.default ? createElement(RoutesDemosParamsIndex.default) : undefined,loader:RoutesDemosParamsIndex.loader,action:RoutesDemosParamsIndex.action,errorElement:RoutesDemosParamsIndex.ErrorBoundary ? createElement(RoutesDemosParamsIndex.ErrorBoundary) : undefined,handle:RoutesDemosParamsIndex.handle,shouldRevalidate:RoutesDemosParamsIndex.shouldRevalidate,index:true},{path:':id',element:RoutesDemosParams$id.default ? createElement(RoutesDemosParams$id.default) : undefined,loader:RoutesDemosParams$id.loader,action:RoutesDemosParams$id.action,errorElement:RoutesDemosParams$id.ErrorBoundary ? createElement(RoutesDemosParams$id.ErrorBoundary) : undefined,handle:RoutesDemosParams$id.handle,shouldRevalidate:RoutesDemosParams$id.shouldRevalidate}]},{path:'demos/about',element:RoutesDemosAbout.default ? createElement(RoutesDemosAbout.default) : undefined,loader:RoutesDemosAbout.loader,action:RoutesDemosAbout.action,errorElement:RoutesDemosAbout.ErrorBoundary ? createElement(RoutesDemosAbout.ErrorBoundary) : undefined,handle:RoutesDemosAbout.handle,shouldRevalidate:RoutesDemosAbout.shouldRevalidate,children:[{element:RoutesDemosAboutIndex.default ? createElement(RoutesDemosAboutIndex.default) : undefined,loader:RoutesDemosAboutIndex.loader,action:RoutesDemosAboutIndex.action,errorElement:RoutesDemosAboutIndex.ErrorBoundary ? createElement(RoutesDemosAboutIndex.ErrorBoundary) : undefined,handle:RoutesDemosAboutIndex.handle,shouldRevalidate:RoutesDemosAboutIndex.shouldRevalidate,index:true},{path:'whoa',element:RoutesDemosAboutWhoa.default ? createElement(RoutesDemosAboutWhoa.default) : undefined,loader:RoutesDemosAboutWhoa.loader,action:RoutesDemosAboutWhoa.action,errorElement:RoutesDemosAboutWhoa.ErrorBoundary ? createElement(RoutesDemosAboutWhoa.ErrorBoundary) : undefined,handle:RoutesDemosAboutWhoa.handle,shouldRevalidate:RoutesDemosAboutWhoa.shouldRevalidate}]},{element:RoutesIndex.default ? createElement(RoutesIndex.default) : undefined,loader:RoutesIndex.loader,action:RoutesIndex.action,errorElement:RoutesIndex.ErrorBoundary ? createElement(RoutesIndex.ErrorBoundary) : undefined,handle:RoutesIndex.handle,shouldRevalidate:RoutesIndex.shouldRevalidate,index:true}]"`;
+
+exports[`stringifyRoutes for data router 2`] = `
+"import * as RoutesOneTwoThree from '/app/routes/one.two.three.tsx';
+import * as RoutesDemosParams from '/app/routes/demos/params.tsx';
+import * as RoutesDemosParamsIndex from '/app/routes/demos/params/index.tsx';
+import * as RoutesDemosParams$id from '/app/routes/demos/params/$id.tsx';
+import * as RoutesDemosAbout from '/app/routes/demos/about.tsx';
+import * as RoutesDemosAboutIndex from '/app/routes/demos/about/index.tsx';
+import * as RoutesDemosAboutWhoa from '/app/routes/demos/about/whoa.tsx';
+import * as RoutesIndex from '/app/routes/index.tsx';"
 `;

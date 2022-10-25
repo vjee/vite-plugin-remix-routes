@@ -10,6 +10,17 @@ import { stringifyRoutes } from "./utils";
 export interface Options extends PluginOptions, RemixOptions {}
 export interface PluginOptions {
   /**
+   * Set this to `false` if you're not using a router compatible with the data APIs
+   * released in react-router 6.4.
+   * https://reactrouter.com/en/main/routers/picking-a-router#using-v64-data-apis
+   *
+   * @default true
+   */
+  dataRouterCompatible?: boolean;
+
+  /**
+   * NOTE: This option only works if `dataRouterCompatible` is set to `false`.
+   *
    * A function that receives a `Route` to determine if the route's component
    * should be imported synchronously or asynchronously.
    *
@@ -18,6 +29,8 @@ export interface PluginOptions {
   importMode?: (route: Route) => "async" | "sync";
 
   /**
+   * NOTE: This option only works if `dataRouterCompatible` is set to `false`. You should use an `ErrorBoundary` component instead.
+   *
    * A function that receives a `Route` to determine if it should be a 404 route. (`path="*"`)
    * By default this matches the same 404 file as Remix does.
    * Keep in mind this only receives top level routes, so you can't mark nested routes
@@ -31,7 +44,14 @@ export interface PluginOptions {
 function plugin(options: Options = {}): Plugin {
   const virtualModuleId = "virtual:remix-routes";
 
-  const { appDirectory = "app", importMode, ...otherOptions } = options;
+  const {
+    appDirectory = "app",
+    dataRouterCompatible,
+    importMode,
+    is404Route,
+    routes,
+    ignoredRouteFiles,
+  } = options;
 
   const dir = path.resolve(process.cwd(), appDirectory);
 
@@ -60,12 +80,18 @@ function plugin(options: Options = {}): Plugin {
 
     async load(id) {
       if (id === virtualModuleId) {
-        const routes = await getRoutes({ appDirectory: dir, ...otherOptions });
-
-        const { routesString, componentsString } = stringifyRoutes(routes, {
-          prefix,
-          importMode,
+        const generatedRoutes = await getRoutes({
+          appDirectory: dir,
+          dataRouterCompatible,
+          is404Route,
+          routes,
+          ignoredRouteFiles,
         });
+
+        const { routesString, componentsString } = stringifyRoutes(
+          generatedRoutes,
+          { prefix, dataRouterCompatible, importMode }
+        );
 
         return (
           `import { createElement, lazy, useEffect } from 'react';\n` +

@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Dependency updates
+- Add `dataRouterCompatible` option that defaults to `true` to be used with `react-router` 6.4 or later.
+  - `importMode` option only works when `dataRouterCompatible` is `false`.
+  - `is404Route` option only works when `dataRouterCompatible` is `false`.
+- Custom `loader` property on routes with `importMode='async'` has been renamed to `importPromise` so it doesn't conflict with `react-router`'s new `loader` property.
+  - `EagerLoader` has been updated to use `importPromise`.
+
 ## [0.2.0] - 2022-03-29
 
 ### Breaking

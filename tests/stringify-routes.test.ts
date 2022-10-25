@@ -16,6 +16,20 @@ test("stringifyRoutes", async () => {
   const { routesString, componentsString } = stringifyRoutes(routes, {
     prefix,
     importMode,
+    dataRouterCompatible: false,
+  });
+
+  expect(routesString).toMatchSnapshot();
+  expect(componentsString).toMatchSnapshot();
+});
+
+test("stringifyRoutes for data router", async () => {
+  const routes = await getRoutes({ appDirectory });
+  const prefix = "/app";
+
+  const { routesString, componentsString } = stringifyRoutes(routes, {
+    prefix,
+    dataRouterCompatible: true,
   });
 
   expect(routesString).toMatchSnapshot();

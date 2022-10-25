@@ -8,6 +8,7 @@ export type RequireOnly<Object, Keys extends keyof Object> = Omit<
 
 export interface Context {
   prefix: string;
+  dataRouterCompatible?: boolean;
   importMode?: (route: Route) => "sync" | "async";
 }
 
@@ -53,19 +54,38 @@ function routeToString(
     props.set("path", `'${route.path}'`);
   }
 
-  if (importMode === "async") {
-    components.async.push(
-      `const ${componentName} = () => import('${componentPath}');`
+  if (context.dataRouterCompatible) {
+    components.sync.push(
+      `import * as ${componentName} from '${componentPath}';`
     );
 
-    props.set("element", `createElement(lazy(${componentName}))`);
-    props.set("loader", componentName);
-  }
+    props.set(
+      "element",
+      `${componentName}.default ? createElement(${componentName}.default) : undefined`
+    );
+    props.set("loader", `${componentName}.loader`);
+    props.set("action", `${componentName}.action`);
+    props.set(
+      "errorElement",
+      `${componentName}.ErrorBoundary ? createElement(${componentName}.ErrorBoundary) : undefined`
+    );
+    props.set("handle", `${componentName}.handle`);
+    props.set("shouldRevalidate", `${componentName}.shouldRevalidate`);
+  } else {
+    if (importMode === "async") {
+      components.async.push(
+        `const ${componentName} = () => import('${componentPath}');`
+      );
 
-  if (importMode === "sync") {
-    components.sync.push(`import ${componentName} from '${componentPath}';`);
+      props.set("element", `createElement(lazy(${componentName}))`);
+      props.set("importPromise", componentName);
+    }
 
-    props.set("element", `createElement(${componentName})`);
+    if (importMode === "sync") {
+      components.sync.push(`import ${componentName} from '${componentPath}';`);
+
+      props.set("element", `createElement(${componentName})`);
+    }
   }
 
   if (route.index === true) {

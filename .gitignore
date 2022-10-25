@@ -1,4 +1,6 @@
 node_modules
+package-lock.json
+pnpm-lock.yaml
 .DS_Store
 /dist
 /examples/**/yarn.lock
