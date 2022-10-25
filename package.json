@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-remix-routes",
-  "version": "0.3.0",
+  "version": "0.2.0",
   "description": "Use Remix routing in your Vite project",
   "license": "MIT",
   "author": "Jasper Van Gestel",
