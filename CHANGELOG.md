@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.3.0] - 2022-10-25
 
 - Dependency updates
 - Add `dataRouterCompatible` option that defaults to `true` to be used with `react-router` 6.4 or later.
