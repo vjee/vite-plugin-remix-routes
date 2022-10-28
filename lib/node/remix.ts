@@ -76,6 +76,7 @@ export async function getRoutes(options: GetRouteOptions) {
   // This is not part of remix.
   const modifyRoute = (route: Route): Route => ({
     ...route,
+    file: route.file.replace(/\\/g, '/'),
     path: !dataRouterCompatible && is404Route(route) ? "*" : route.path,
     children: route.children.map(modifyRoute),
   });

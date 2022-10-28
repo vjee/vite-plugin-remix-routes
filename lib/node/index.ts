@@ -67,7 +67,7 @@ function plugin(options: Options = {}): Plugin {
     );
   }
 
-  const prefix = `.${path.sep}${path.relative(process.cwd(), dir)}`;
+  const prefix = `/${path.sep}${path.relative(process.cwd(), dir)}`;
 
   return {
     name: "vite-plugin-remix-routes",
