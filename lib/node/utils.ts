@@ -1,3 +1,4 @@
+import path from "node:path";
 import type { Route } from "./remix";
 
 export type RequireOnly<Object, Keys extends keyof Object> = Omit<
@@ -44,9 +45,11 @@ function routeToString(
   context: Context,
   components: Components
 ): string {
-  const componentName = getRouteComponentName(route);
-  const componentPath = `${context.prefix}/${route.file}`;
   const importMode = context.importMode?.(route) || "sync";
+  const componentName = getRouteComponentName(route);
+  const componentPath = `${context.prefix}${path.sep}${route.file}`
+    .split(path.sep)
+    .join(path.posix.sep);
 
   const props = new Map<string, string>();
 

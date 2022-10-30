@@ -54,6 +54,7 @@ function plugin(options: Options = {}): Plugin {
   } = options;
 
   const dir = path.resolve(process.cwd(), appDirectory);
+  const prefix = `.${path.sep}${path.relative(process.cwd(), dir)}`;
 
   if (
     !fs.existsSync(path.join(dir, "routes")) ||
@@ -67,7 +68,6 @@ function plugin(options: Options = {}): Plugin {
     );
   }
 
-  const prefix = `/${path.sep}${path.relative(process.cwd(), dir)}`;
 
   return {
     name: "vite-plugin-remix-routes",
