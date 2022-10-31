@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.4.0] - 2022-10-31
+
+- Fix paths on windows environment
+
 ## [0.3.0] - 2022-10-25
 
 - Dependency updates
