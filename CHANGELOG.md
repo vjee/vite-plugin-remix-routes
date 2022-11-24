@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.4.1] - 2022-11-24
+
+- Fix react peer dependency
+
 ## [0.4.0] - 2022-10-31
 
 - Fix paths on windows environment
